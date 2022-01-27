@@ -1,42 +1,64 @@
 import 'dart:io';
-
-double Calcul(double a, double b, String typeop) {
-  if (identical(typeop, '+')) return a + b;
-  if (identical(typeop, '-')) return a - b;
-  if (identical(typeop, '*')) return a * b;
-  if (identical(typeop, '%')) {
-    if (b != 0) return a % b;
-  }
-  if (identical(typeop, '/')) {
-    if (b != 0) return a / b;
-  }
-  return 0;
-}
+import 'calculatrice-class.dart';
 
 void main(List<String> args) {
+  Calculatrice cal;
   var a, b;
   var op;
   double a1, b1;
-  double resultat;
+  double result = 0;
   var reponse;
+  var choix;
+  var cont = false;
 
   do {
-    print("Valeur a :");
-    a = stdin.readLineSync();
-    a1 = double.parse(a);
+    if (cont == false) {
+      print("Valeur a :");
+      a = stdin.readLineSync().toString();
+      a1 = double.parse(a);
 
-    print("Operation (+, -, *, /, %)");
-    op = stdin.readLineSync();
+      print("Operation (+, -, *, /, %)");
+      op = stdin.readLineSync().toString();
 
-    print("Valeur b :");
-    b = stdin.readLineSync();
-    b1 = double.parse(b);
+      print("Valeur b :");
+      b = stdin.readLineSync().toString();
+      b1 = double.parse(b);
 
-    resultat = Calcul(a1, b1, op);
+      cal = Calculatrice(a1, b1, op);
+      result = cal.Calcule();
+      print(cal.Calcule());
 
-    print(resultat);
+      print("Continuer la même opération ? (o/n)");
+      choix = stdin.readLineSync().toString();
+      if(choix == 'o'){
+        cont = true;
+      }
+    }else{
+      print("Operation (+, -, *, /, %)");
+      op = stdin.readLineSync().toString();
 
-    print("Faire une autre opération ? (o/n)");
-    reponse = stdin.readLineSync();
+      print("Valeur b :");
+      b = stdin.readLineSync().toString();
+      b1 = double.parse(b);
+
+      cal = Calculatrice(result, b1, op);
+      result = cal.Calcule();
+      print(cal.Calcule());
+
+      print("Continuer la même opération ? (o/n)");
+      choix = stdin.readLineSync().toString();
+      if(choix == 'o'){
+        cont = true;
+      }else{
+        cont = false;
+      }
+    }
+    if(cont == false){
+      result = 0.0;
+      print("Faire une autre opération ? (o/n)");
+      reponse = stdin.readLineSync();
+    }else{
+      reponse = 'o';
+    }
   } while (reponse == 'o');
 }
